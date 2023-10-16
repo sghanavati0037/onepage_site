@@ -1,7 +1,7 @@
 /**
-* Template Name: Delicious
+* Template Name: Baker
 * Updated: Sep 18 2023 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/delicious-free-restaurant-bootstrap-theme/
+* Template URL: https://bootstrapmade.com/baker-free-onepage-bootstrap-theme/
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
@@ -68,6 +68,10 @@
     let header = select('#header')
     let offset = header.offsetHeight
 
+    if (!header.classList.contains('header-scrolled')) {
+      offset -= 10
+    }
+
     let elementPos = select(el).offsetTop
     window.scrollTo({
       top: elementPos - offset,
@@ -79,19 +83,12 @@
    * Toggle .header-scrolled class to #header when page is scrolled
    */
   let selectHeader = select('#header')
-  let selectTopbar = select('#topbar')
   if (selectHeader) {
     const headerScrolled = () => {
       if (window.scrollY > 100) {
         selectHeader.classList.add('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.add('topbar-scrolled')
-        }
       } else {
         selectHeader.classList.remove('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.remove('topbar-scrolled')
-        }
       }
     }
     window.addEventListener('load', headerScrolled)
@@ -163,72 +160,6 @@
   });
 
   /**
-   * Hero carousel indicators
-   */
-  let heroCarouselIndicators = select("#hero-carousel-indicators")
-  let heroCarouselItems = select('#heroCarousel .carousel-item', true)
-
-  heroCarouselItems.forEach((item, index) => {
-    (index === 0) ?
-    heroCarouselIndicators.innerHTML += "<li data-bs-target='#heroCarousel' data-bs-slide-to='" + index + "' class='active'></li>":
-      heroCarouselIndicators.innerHTML += "<li data-bs-target='#heroCarousel' data-bs-slide-to='" + index + "'></li>"
-  });
-
-  /**
-   * Menu isotope and filter
-   */
-  window.addEventListener('load', () => {
-    let menuContainer = select('.menu-container');
-    if (menuContainer) {
-      let menuIsotope = new Isotope(menuContainer, {
-        itemSelector: '.menu-item',
-        layoutMode: 'fitRows'
-      });
-
-      let menuFilters = select('#menu-flters li', true);
-
-      on('click', '#menu-flters li', function(e) {
-        e.preventDefault();
-        menuFilters.forEach(function(el) {
-          el.classList.remove('filter-active');
-        });
-        this.classList.add('filter-active');
-
-        menuIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-
-      }, true);
-    }
-
-  });
-
-  /**
-   * Testimonials slider
-   */
-  new Swiper('.events-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-  /**
-   * Initiate gallery lightbox 
-   */
-  const galleryLightbox = GLightbox({
-    selector: '.gallery-lightbox'
-  });
-
-  /**
    * Testimonials slider
    */
   new Swiper('.testimonials-slider', {
@@ -243,7 +174,85 @@
       el: '.swiper-pagination',
       type: 'bullets',
       clickable: true
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 20
+      },
+
+      1200: {
+        slidesPerView: 3,
+        spaceBetween: 20
+      }
     }
   });
+
+  /**
+   * Porfolio isotope and filter
+   */
+  window.addEventListener('load', () => {
+    let portfolioContainer = select('.portfolio-container');
+    if (portfolioContainer) {
+      let portfolioIsotope = new Isotope(portfolioContainer, {
+        itemSelector: '.portfolio-item',
+        layoutMode: 'fitRows'
+      });
+
+      let portfolioFilters = select('#portfolio-flters li', true);
+
+      on('click', '#portfolio-flters li', function(e) {
+        e.preventDefault();
+        portfolioFilters.forEach(function(el) {
+          el.classList.remove('filter-active');
+        });
+        this.classList.add('filter-active');
+
+        portfolioIsotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+
+      }, true);
+    }
+
+  });
+
+  /**
+   * Initiate portfolio lightbox 
+   */
+  const portfolioLightbox = GLightbox({
+    selector: '.portfolio-lightbox'
+  });
+
+  /**
+   * Initiate portfolio details lightbox 
+   */
+  const portfolioDetailsLightbox = GLightbox({
+    selector: '.portfolio-details-lightbox',
+    width: '90%',
+    height: '90vh'
+  });
+
+  /**
+   * Portfolio details slider
+   */
+  new Swiper('.portfolio-details-slider', {
+    speed: 400,
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+      clickable: true
+    }
+  });
+
+  /**
+   * Initiate Pure Counter 
+   */
+  new PureCounter();
 
 })()
